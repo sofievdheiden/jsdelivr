@@ -1,0 +1,61 @@
+import React, { useState } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const gymUsers = [
+  {
+    id: 1,
+    name: "Lisa",
+    age: 25,
+    gym: "Fit For Free",
+    goal: "Spiermassa opbouwen",
+    bio: "Laten we samen een PR breken! 💪",
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
+  },
+  {
+    id: 2,
+    name: "Mark",
+    age: 28,
+    gym: "Basic-Fit",
+    goal: "Afvallen & conditie verbeteren",
+    bio: "Ik kan jou verslaan in push-ups! 😆",
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
+  },
+];
+
+export default function GymMatch() {
+  const [index, setIndex] = useState(0);
+
+  const handleSwipe = (direction) => {
+    if (direction === "right") {
+      console.log("Match met", gymUsers[index].name);
+    }
+    setIndex((prevIndex) => (prevIndex + 1) % gymUsers.length);
+  };
+
+  return (
+    <View className="flex items-center justify-center h-screen bg-gray-100">
+      <Card className="p-4 w-80 shadow-lg rounded-xl bg-white">
+        <Image
+          source={{ uri: gymUsers[index].image }}
+          className="w-full h-64 rounded-xl"
+        />
+        <Text className="text-xl font-bold mt-2">{gymUsers[index].name}, {gymUsers[index].age}</Text>
+        <Text className="text-sm text-gray-500">🏋️ {gymUsers[index].gym}</Text>
+        <Text className="text-sm text-gray-500">🎯 {gymUsers[index].goal}</Text>
+        <Text className="mt-2 italic">"{gymUsers[index].bio}"</Text>
+
+        <View className="flex flex-row justify-between mt-4">
+          <TouchableOpacity onPress={() => handleSwipe("left")}>
+            <Button className="bg-red-500">👎</Button>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSwipe("right")}>
+            <Button className="bg-green-500">👍</Button>
+          </TouchableOpacity>
+        </View>
+      </Card>
+    </View>
+  );
+}
